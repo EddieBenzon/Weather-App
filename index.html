@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap"
+      rel="stylesheet"
+    />
+    <title>Weather App</title>
+  </head>
+  <body>
+    <div class="page">
+      <div class="right-wrapper">
+        <span class="main-card">
+          <div class="card-header">Weather</div>
+          <div class="notification">User denied access :(</div>
+          <div class="weather-info-container">
+            <div class="main-icon">
+              <img src="Icons/nt_unknown.png" alt="" />
+            </div>
+            <div class="temperature" onclick="convertUnits()">-° C</div>
+            <div class="description">-</div>
+            <div class="location">-</div>
+          </div>
+          <div class="card-footer">
+            Click on the temperature to change units!
+          </div>
+        </span>
+        <div class="weather-grid-wrapper">
+          <p>Weather for the next 6 days:</p>
+          <div class="weather-grid">
+            <span class="grid-item">
+              <div class="grid-item-wrapper" id="wrapper-one">
+                <img
+                  class="grid-icon"
+                  id="img1"
+                  src="Icons/nt_unknown.png"
+                  alt=""
+                />
+                <p class="grid-temp-max-min" id="day-1-temp">-°C/-°C</p>
+              </div>
+            </span>
+            <span class="grid-item"
+              ><div class="grid-item-wrapper" id="wrapper-two">
+                <img
+                  class="grid-icon"
+                  id="img2"
+                  src="Icons/nt_unknown.png"
+                  alt=""
+                />
+                <p class="grid-temp-max-min" id="day-2-temp">-°C/-°C</p>
+              </div></span
+            >
+            <span class="grid-item"
+              ><div class="grid-item-wrapper" id="wrapper-three">
+                <img
+                  class="grid-icon"
+                  id="img3"
+                  src="Icons/nt_unknown.png"
+                  alt=""
+                />
+                <p class="grid-temp-max-min" id="day-3-temp">-°C/-°C</p>
+              </div></span
+            >
+            <span class="grid-item"
+              ><div class="grid-item-wrapper" id="wrapper-four">
+                <img
+                  class="grid-icon"
+                  id="img4"
+                  src="Icons/nt_unknown.png"
+                  alt=""
+                />
+                <p class="grid-temp-max-min" id="day-4-temp">-°C/-°C</p>
+              </div></span
+            >
+            <span class="grid-item"
+              ><div class="grid-item-wrapper" id="wrapper-five">
+                <img
+                  class="grid-icon"
+                  id="img5"
+                  src="Icons/nt_unknown.png"
+                  alt=""
+                />
+                <p class="grid-temp-max-min" id="day-5-temp">-°C/-°C</p>
+              </div></span
+            >
+            <span class="grid-item"
+              ><div class="grid-item-wrapper" id="wrapper-six">
+                <img
+                  class="grid-icon"
+                  id="img6"
+                  src="Icons/nt_unknown.png"
+                  alt=""
+                />
+                <p class="grid-temp-max-min" id="day-6-temp">-°C/-°C</p>
+              </div></span
+            >
+            <span class="input-wrapper">
+              <span class="input-label">Search for another city:</span>
+              <input type="text" class="text-input" onchange="searchCity()" />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
