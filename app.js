@@ -1,5 +1,3 @@
-const key = "78b314d11fa47828771f184a2734b69c";
-
 // main elements
 let iconElement = document.querySelector(".main-icon");
 let temperatureElement = document.querySelector(".temperature");
@@ -18,6 +16,8 @@ let day6temp = document.getElementById("day-6-temp");
 const weather = {
   unit: "celsius",
 };
+
+const forecast = [{}, {}, {}, {}, {}, {}];
 
 if ("geolocation" in navigator) {
   navigator.geolocation.getCurrentPosition(setPosition, showError);
@@ -46,10 +46,8 @@ function searchCity() {
       return data;
     })
     .then((data) => {
-      console.log(data);
       let lat = data.coord.lat;
       let long = data.coord.lon;
-      let api = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely,hourly&units=metric&appid=${key}`;
       getDays(lat, long);
       weather.temperature = Math.floor(data.main.temp);
       weather.temperatureF = Math.floor(data.main.temp * 1.8 + 32);
@@ -61,6 +59,11 @@ function searchCity() {
     .then(function () {
       displayWeather();
     });
+  clearSearch();
+}
+
+function clearSearch() {
+  document.querySelector(".text-input").value = "";
 }
 
 function getWeather(latitude, longitude) {
@@ -93,11 +96,30 @@ function displayWeather() {
 function convertUnits() {
   if (weather.unit === "celsius") {
     temperatureElement.innerHTML = `${weather.temperatureF}°F`;
+    day1temp.innerHTML = `${forecast[0].tempFMax}/${forecast[0].tempFMin}°F`;
+    day2temp.innerHTML = `${forecast[1].tempFMax}/${forecast[1].tempFMin}°F`;
+    day3temp.innerHTML = `${forecast[2].tempFMax}/${forecast[2].tempFMin}°F`;
+    day4temp.innerHTML = `${forecast[3].tempFMax}/${forecast[3].tempFMin}°F`;
+    day5temp.innerHTML = `${forecast[4].tempFMax}/${forecast[4].tempFMin}°F`;
+    day6temp.innerHTML = `${forecast[5].tempFMax}/${forecast[5].tempFMin}°F`;
     weather.unit = "fahrenheit";
   } else if (weather.unit === "fahrenheit") {
+    day1temp.innerHTML = `${forecast[0].tempMax}/${forecast[0].tempMin}°C`;
+    day2temp.innerHTML = `${forecast[1].tempMax}/${forecast[1].tempMin}°C`;
+    day3temp.innerHTML = `${forecast[2].tempMax}/${forecast[2].tempMin}°C`;
+    day4temp.innerHTML = `${forecast[3].tempMax}/${forecast[3].tempMin}°C`;
+    day5temp.innerHTML = `${forecast[4].tempMax}/${forecast[4].tempMin}°C`;
+    day6temp.innerHTML = `${forecast[5].tempMax}/${forecast[5].tempMin}°C`;
     temperatureElement.innerHTML = `${weather.temperature}°C`;
     weather.unit = "celsius";
   }
+}
+
+function Day(tempMax, tempMin, tempFMax, tempFMin) {
+  this.tempMax = tempMax;
+  this.tempMin = tempMin;
+  this.tempFMax = tempFMax;
+  this.tempFMin = tempFMin;
 }
 
 function getDays(latitude, longitude) {
@@ -108,45 +130,70 @@ function getDays(latitude, longitude) {
       return data;
     })
     .then((data) => {
-      createDays(data);
+      forecast[0] = new Day(
+        Math.floor(data.daily[0].temp.max),
+        Math.floor(data.daily[0].temp.min),
+        Math.floor(data.daily[0].temp.max * 1.8 + 32),
+        Math.floor(data.daily[0].temp.max * 1.8 + 32)
+      );
+      forecast[1] = new Day(
+        Math.floor(data.daily[1].temp.max),
+        Math.floor(data.daily[1].temp.min),
+        Math.floor(data.daily[1].temp.max * 1.8 + 32),
+        Math.floor(data.daily[1].temp.max * 1.8 + 32)
+      );
+      forecast[2] = new Day(
+        Math.floor(data.daily[2].temp.max),
+        Math.floor(data.daily[2].temp.min),
+        Math.floor(data.daily[2].temp.max * 1.8 + 32),
+        Math.floor(data.daily[2].temp.max * 1.8 + 32)
+      );
+      forecast[3] = new Day(
+        Math.floor(data.daily[3].temp.max),
+        Math.floor(data.daily[3].temp.min),
+        Math.floor(data.daily[3].temp.max * 1.8 + 32),
+        Math.floor(data.daily[3].temp.max * 1.8 + 32)
+      );
+      forecast[4] = new Day(
+        Math.floor(data.daily[4].temp.max),
+        Math.floor(data.daily[4].temp.min),
+        Math.floor(data.daily[4].temp.max * 1.8 + 32),
+        Math.floor(data.daily[4].temp.max * 1.8 + 32)
+      );
+      forecast[5] = new Day(
+        Math.floor(data.daily[5].temp.max),
+        Math.floor(data.daily[5].temp.min),
+        Math.floor(data.daily[5].temp.max * 1.8 + 32),
+        Math.floor(data.daily[5].temp.max * 1.8 + 32)
+      );
+      displayDays(data);
     });
 }
 
-function createDays(data) {
-  day1temp.innerHTML = `${Math.floor(data.daily[0].temp.max)}°C/${Math.floor(
-    data.daily[0].temp.min
-  )}°C`;
+function displayDays(data) {
+  day1temp.innerHTML = `${forecast[0].tempMax}/${forecast[0].tempMin}°C`;
   document.getElementById(
     "img1"
   ).src = `Icons/${data.daily[1].weather[0].icon}.png`;
-  day2temp.innerHTML = `${Math.floor(data.daily[1].temp.max)}°C/${Math.floor(
-    data.daily[1].temp.min
-  )}°C`;
+  day2temp.innerHTML = `${forecast[1].tempMax}/${forecast[1].tempMin}°C`;
   document.getElementById(
     "img2"
   ).src = `Icons/${data.daily[2].weather[0].icon}.png`;
-  day3temp.innerHTML = `${Math.floor(data.daily[2].temp.max)}°C/${Math.floor(
-    data.daily[2].temp.min
-  )}°C`;
+  day3temp.innerHTML = `${forecast[2].tempMax}/${forecast[2].tempMin}°C`;
   document.getElementById(
     "img3"
   ).src = `Icons/${data.daily[3].weather[0].icon}.png`;
-  day4temp.innerHTML = `${Math.floor(data.daily[3].temp.max)}°C/${Math.floor(
-    data.daily[3].temp.min
-  )}°C`;
+  day4temp.innerHTML = `${forecast[3].tempMax}/${forecast[3].tempMin}°C`;
   document.getElementById(
     "img4"
   ).src = `Icons/${data.daily[4].weather[0].icon}.png`;
-  day5temp.innerHTML = `${Math.floor(data.daily[4].temp.max)}°C/${Math.floor(
-    data.daily[4].temp.min
-  )}°C`;
+  day5temp.innerHTML = `${forecast[4].tempMax}/${forecast[4].tempMin}°C`;
   document.getElementById(
     "img5"
   ).src = `Icons/${data.daily[5].weather[0].icon}.png`;
-  day6temp.innerHTML = `${Math.floor(data.daily[5].temp.max)}°C/${Math.floor(
-    data.daily[5].temp.min
-  )}°C`;
+  day6temp.innerHTML = `${forecast[5].tempMax}/${forecast[5].tempMin}°C`;
   document.getElementById(
     "img6"
   ).src = `Icons/${data.daily[0].weather[0].icon}.png`;
 }
+const key = "78b314d11fa47828771f184a2734b69c";
