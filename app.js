@@ -17,7 +17,7 @@ const weather = {
   unit: "celsius",
 };
 
-const forecast = [{}, {}, {}, {}, {}, {}];
+const forecast = [];
 
 if ("geolocation" in navigator) {
   navigator.geolocation.getCurrentPosition(setPosition, showError);
@@ -130,41 +130,42 @@ function getDays(latitude, longitude) {
       return data;
     })
     .then((data) => {
+      console.log(data);
       forecast[0] = new Day(
-        Math.floor(data.daily[0].temp.max),
-        Math.floor(data.daily[0].temp.min),
-        Math.floor(data.daily[0].temp.max * 1.8 + 32),
-        Math.floor(data.daily[0].temp.max * 1.8 + 32)
-      );
-      forecast[1] = new Day(
         Math.floor(data.daily[1].temp.max),
         Math.floor(data.daily[1].temp.min),
         Math.floor(data.daily[1].temp.max * 1.8 + 32),
         Math.floor(data.daily[1].temp.max * 1.8 + 32)
       );
-      forecast[2] = new Day(
+      forecast[1] = new Day(
         Math.floor(data.daily[2].temp.max),
         Math.floor(data.daily[2].temp.min),
         Math.floor(data.daily[2].temp.max * 1.8 + 32),
         Math.floor(data.daily[2].temp.max * 1.8 + 32)
       );
-      forecast[3] = new Day(
+      forecast[2] = new Day(
         Math.floor(data.daily[3].temp.max),
         Math.floor(data.daily[3].temp.min),
         Math.floor(data.daily[3].temp.max * 1.8 + 32),
         Math.floor(data.daily[3].temp.max * 1.8 + 32)
       );
-      forecast[4] = new Day(
+      forecast[3] = new Day(
         Math.floor(data.daily[4].temp.max),
         Math.floor(data.daily[4].temp.min),
         Math.floor(data.daily[4].temp.max * 1.8 + 32),
         Math.floor(data.daily[4].temp.max * 1.8 + 32)
       );
-      forecast[5] = new Day(
+      forecast[4] = new Day(
         Math.floor(data.daily[5].temp.max),
         Math.floor(data.daily[5].temp.min),
         Math.floor(data.daily[5].temp.max * 1.8 + 32),
         Math.floor(data.daily[5].temp.max * 1.8 + 32)
+      );
+      forecast[5] = new Day(
+        Math.floor(data.daily[6].temp.max),
+        Math.floor(data.daily[6].temp.min),
+        Math.floor(data.daily[6].temp.max * 1.8 + 32),
+        Math.floor(data.daily[6].temp.max * 1.8 + 32)
       );
       displayDays(data);
     });
@@ -194,6 +195,6 @@ function displayDays(data) {
   day6temp.innerHTML = `${forecast[5].tempMax}/${forecast[5].tempMin}°C`;
   document.getElementById(
     "img6"
-  ).src = `Icons/${data.daily[0].weather[0].icon}.png`;
+  ).src = `Icons/${data.daily[6].weather[0].icon}.png`;
 }
 const key = "78b314d11fa47828771f184a2734b69c";
