@@ -19,12 +19,17 @@
           <div class="card-header">Weather</div>
           <div class="notification">User denied access :(</div>
           <div class="weather-info-container">
-            <div class="main-icon">
-              <img src="Icons/nt_unknown.png" alt="" />
+            <div class="icon-and-temp">
+              <div class="main-icon">
+                <img src="Icons/nt_unknown.png" alt="" />
+              </div>
+              <div class="temperature" onclick="convertUnits()">-° C</div>
             </div>
-            <div class="temperature" onclick="convertUnits()">-° C</div>
-            <div class="description">-</div>
-            <div class="location">-</div>
+            <div class="text-info-container">
+              <div class="description">-</div>
+              <div class="location">-</div>
+              <div class="current-date">Placeholder 29, Placeholder</div>
+            </div>
           </div>
           <div class="card-footer">
             Click on the temperature to change units!
@@ -34,7 +39,8 @@
           <p>Weather for the next 6 days:</p>
           <div class="weather-grid">
             <span class="grid-item">
-              <div class="grid-item-wrapper" id="wrapper-one">
+              <div class="grid-item-wrapper">
+                <p class="day-name" id="day-name-1">Placeholder</p>
                 <img
                   class="grid-icon"
                   id="img1"
@@ -44,8 +50,9 @@
                 <p class="grid-temp-max-min" id="day-1-temp">-°C/-°C</p>
               </div>
             </span>
-            <span class="grid-item"
-              ><div class="grid-item-wrapper" id="wrapper-two">
+            <span class="grid-item">
+              <div class="grid-item-wrapper">
+                <p class="day-name" id="day-name-2">Placeholder</p>
                 <img
                   class="grid-icon"
                   id="img2"
@@ -56,7 +63,8 @@
               </div></span
             >
             <span class="grid-item"
-              ><div class="grid-item-wrapper" id="wrapper-three">
+              ><div class="grid-item-wrapper">
+                <p class="day-name" id="day-name-3">Placeholder</p>
                 <img
                   class="grid-icon"
                   id="img3"
@@ -67,7 +75,8 @@
               </div></span
             >
             <span class="grid-item"
-              ><div class="grid-item-wrapper" id="wrapper-four">
+              ><div class="grid-item-wrapper">
+                <p class="day-name" id="day-name-4">Placeholder</p>
                 <img
                   class="grid-icon"
                   id="img4"
@@ -78,7 +87,8 @@
               </div></span
             >
             <span class="grid-item"
-              ><div class="grid-item-wrapper" id="wrapper-five">
+              ><div class="grid-item-wrapper">
+                <p class="day-name" id="day-name-5">Placeholder</p>
                 <img
                   class="grid-icon"
                   id="img5"
@@ -89,7 +99,8 @@
               </div></span
             >
             <span class="grid-item"
-              ><div class="grid-item-wrapper" id="wrapper-six">
+              ><div class="grid-item-wrapper">
+                <p class="day-name" id="day-name-6">Placeholder</p>
                 <img
                   class="grid-icon"
                   id="img6"
@@ -99,11 +110,11 @@
                 <p class="grid-temp-max-min" id="day-6-temp">-°C/-°C</p>
               </div></span
             >
-            <span class="input-wrapper">
-              <span class="input-label">Search for another city:</span>
-              <input type="text" class="text-input" onchange="searchCity()" />
-            </span>
           </div>
+          <span class="input-wrapper">
+            <span class="input-label">Search for another city:</span>
+            <input type="text" class="text-input" onchange="searchCity()" />
+          </span>
         </div>
       </div>
     </div>

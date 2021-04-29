@@ -5,6 +5,44 @@ let descriptionElement = document.querySelector(".description");
 let locationElement = document.querySelector(".location");
 let notificationElement = document.querySelector(".notification");
 
+let weekArray = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wendesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wendesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+let monthArray = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+let d = new Date();
+let monthIndex = d.getMonth();
+let currentMonth = monthArray[monthIndex];
+let currentDay = d.getDate();
+let dayOfWeek = weekArray[d.getDay()];
+
 // Displaying 6 day forecast
 let day1temp = document.getElementById("day-1-temp");
 let day2temp = document.getElementById("day-2-temp");
@@ -21,6 +59,14 @@ let img4 = document.getElementById(".img4");
 let img5 = document.getElementById(".img5");
 let img6 = document.getElementById(".img6");
 let imgArray = [img1, img2, img3, img4, img5, img6];
+
+let day1 = document.getElementById("day-name-1");
+let day2 = document.getElementById("day-name-2");
+let day3 = document.getElementById("day-name-3");
+let day4 = document.getElementById("day-name-4");
+let day5 = document.getElementById("day-name-5");
+let day6 = document.getElementById("day-name-6");
+let weekdayArray = [day1, day2, day3, day4, day5, day6];
 
 const weather = {
   unit: "celsius",
@@ -64,6 +110,9 @@ function searchCity() {
       weather.city = data.name;
       weather.country = data.sys.country;
       weather.iconID = data.weather[0].icon;
+      document.querySelector(
+        ".current-date"
+      ).innerHTML = `${currentMonth} ${currentDay}, ${dayOfWeek}`;
     })
     .then(function () {
       displayWeather();
@@ -100,6 +149,14 @@ function displayWeather() {
   descriptionElement.innerHTML = weather.description;
   locationElement.innerHTML = `${weather.city}, ${weather.country}`;
   iconElement.innerHTML = `<img src="Icons/${weather.iconID}.png" alt="" />`;
+  document.querySelector(
+    ".current-date"
+  ).innerHTML = `${currentMonth} ${currentDay}, ${dayOfWeek}`;
+  let dayPlus = 1;
+  for (i = 0; i < 6; i++) {
+    weekdayArray[i].innerHTML = weekArray[d.getDay() + dayPlus];
+    dayPlus++;
+  }
 }
 
 function convertUnits() {
@@ -138,7 +195,7 @@ function getDays(latitude, longitude) {
           Math.floor(data.daily[i + 1].temp.max),
           Math.floor(data.daily[i + 1].temp.min),
           Math.floor(data.daily[i + 1].temp.max * 1.8 + 32),
-          Math.floor(data.daily[i + 1].temp.max * 1.8 + 32)
+          Math.floor(data.daily[i + 1].temp.min * 1.8 + 32)
         );
       }
       displayDays(data);

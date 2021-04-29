@@ -16,10 +16,10 @@ body {
 }
 
 .main-card {
-  /* margin: auto; */
+  margin: 0;
   background-color: white;
   border-radius: 2rem;
-  min-width: 300px;
+  width: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -35,7 +35,7 @@ body {
 }
 
 .notification {
-  background-color: rgb(255, 158, 158);
+  background-color: rgb(255, 116, 116);
   text-align: center;
   padding: 12px 0;
   font-size: x-large;
@@ -47,11 +47,22 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   background-color: rgb(218, 233, 255);
-  padding: 10px 0;
   height: 90%;
   font-family: "Quicksand", sans-serif;
+}
+
+.icon-and-temp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .main-icon {
@@ -61,24 +72,32 @@ body {
 }
 
 .temperature {
-  font-size: 60px;
+  margin-top: 22px;
+  font-size: 80px;
   color: rgb(22, 41, 70);
 }
 
 .description {
-  font-size: x-large;
+  font-size: 40px;
   color: rgb(22, 41, 70);
 }
 
 .location {
-  font-size: medium;
+  font-size: 25px;
   color: rgb(22, 41, 70);
+}
+
+.current-date {
+  margin-top: 20px;
+  font-size: 22px;
+  color: rgb(22, 41, 70);
+  margin-bottom: 20px;
 }
 
 .card-footer {
   text-align: center;
-  font-size: small;
-  padding: 10px 0;
+  font-size: 19px;
+  padding: 12px 10px;
   color: rgb(97, 97, 97);
   font-family: "Quicksand", sans-serif;
 }
@@ -92,17 +111,18 @@ body {
 }
 
 .input-label {
-  font-size: x-large;
+  font-size: 30px;
   font-family: "Quicksand", sans-serif;
 }
 
 .text-input {
-  margin-top: 8px;
+  margin-top: 15px;
   font-size: x-large;
   padding: 10px 15px;
   border: none;
   border-radius: 1rem;
-  width: 100%;
+  max-width: 400px;
+  height: 60px;
 }
 
 .text-input:focus {
@@ -122,82 +142,90 @@ body {
   /* border: 1px solid rgb(238, 255, 0); */
   display: flex;
   margin-left: 30px;
-  width: 400px;
+  width: auto;
   flex-direction: column;
-  justify-content: space-between;
-}
-
-.weather-grid {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.weather-grid-wrapper {
-  font-size: 25px;
+  justify-content: space-evenly;
+  font-size: 40px;
   text-align: start;
   color: white;
 }
 
+.weather-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 170px 170px 170px;
+  grid-gap: 12px;
+}
+
 .grid-item {
-  width: 120px;
-  height: 150px;
   background-color: white;
   border-radius: 1rem;
-  margin: 10px 10px 0 0;
+  padding: 15px;
 }
 
 .grid-item-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+}
+
+.day-name {
+  color: black;
+  font-size: 22px;
 }
 
 .grid-icon {
-  width: 115px;
-  height: 115px;
-}
-
-.day-1-temp {
-  font-size: 20px;
-  color: black;
-  margin-bottom: 15px;
+  width: 110px;
+  height: 110px;
 }
 
 .grid-temp-max-min {
-  font-size: 20px;
+  font-size: 25px;
   color: black;
-  margin-bottom: 15px;
 }
 
 /* TABLET MEDIA QUERIES */
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 951px) {
   .weather-grid-wrapper {
     width: auto;
     margin-left: 15px;
   }
+  .weather-grid {
+    display: grid;
+    grid-template-columns: 170px 170px;
+  }
+  .main-card {
+    margin: auto;
+    align-self: flex-start;
+  }
   .page {
     height: auto;
-    padding: 10px;
+    padding: 0px;
   }
 }
 
 /* SMART PHONE MEDIA QUERIES */
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 753px) {
   .right-wrapper {
+    margin: 0;
     flex-direction: column;
-    width: 300px;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
   }
   .page {
     height: auto;
-    padding: 10px;
+    padding: 10px 5px;
   }
   .weather-grid-wrapper {
-    margin: 20px auto auto auto;
+    margin: 20px 0 0 0;
+  }
+  .input-wrapper {
+    margin: 20px 0 0 0;
+  }
+  .weather-grid {
+    margin-top: 20px;
   }
 }
