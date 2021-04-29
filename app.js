@@ -12,6 +12,15 @@ let day3temp = document.getElementById("day-3-temp");
 let day4temp = document.getElementById("day-4-temp");
 let day5temp = document.getElementById("day-5-temp");
 let day6temp = document.getElementById("day-6-temp");
+let daysArray = [day1temp, day2temp, day3temp, day4temp, day5temp, day6temp];
+
+let img1 = document.getElementById(".img1");
+let img2 = document.getElementById(".img2");
+let img3 = document.getElementById(".img3");
+let img4 = document.getElementById(".img4");
+let img5 = document.getElementById(".img5");
+let img6 = document.getElementById(".img6");
+let imgArray = [img1, img2, img3, img4, img5, img6];
 
 const weather = {
   unit: "celsius",
@@ -96,20 +105,14 @@ function displayWeather() {
 function convertUnits() {
   if (weather.unit === "celsius") {
     temperatureElement.innerHTML = `${weather.temperatureF}°F`;
-    day1temp.innerHTML = `${forecast[0].tempFMax}/${forecast[0].tempFMin}°F`;
-    day2temp.innerHTML = `${forecast[1].tempFMax}/${forecast[1].tempFMin}°F`;
-    day3temp.innerHTML = `${forecast[2].tempFMax}/${forecast[2].tempFMin}°F`;
-    day4temp.innerHTML = `${forecast[3].tempFMax}/${forecast[3].tempFMin}°F`;
-    day5temp.innerHTML = `${forecast[4].tempFMax}/${forecast[4].tempFMin}°F`;
-    day6temp.innerHTML = `${forecast[5].tempFMax}/${forecast[5].tempFMin}°F`;
+    daysArray.forEach((element, index) => {
+      element.innerHTML = `${forecast[index].tempFMax}/${forecast[index].tempFMin}°F`;
+    });
     weather.unit = "fahrenheit";
   } else if (weather.unit === "fahrenheit") {
-    day1temp.innerHTML = `${forecast[0].tempMax}/${forecast[0].tempMin}°C`;
-    day2temp.innerHTML = `${forecast[1].tempMax}/${forecast[1].tempMin}°C`;
-    day3temp.innerHTML = `${forecast[2].tempMax}/${forecast[2].tempMin}°C`;
-    day4temp.innerHTML = `${forecast[3].tempMax}/${forecast[3].tempMin}°C`;
-    day5temp.innerHTML = `${forecast[4].tempMax}/${forecast[4].tempMin}°C`;
-    day6temp.innerHTML = `${forecast[5].tempMax}/${forecast[5].tempMin}°C`;
+    daysArray.forEach((element, index) => {
+      element.innerHTML = `${forecast[index].tempMax}/${forecast[index].tempMin}°C`;
+    });
     temperatureElement.innerHTML = `${weather.temperature}°C`;
     weather.unit = "celsius";
   }
@@ -130,71 +133,26 @@ function getDays(latitude, longitude) {
       return data;
     })
     .then((data) => {
-      console.log(data);
-      forecast[0] = new Day(
-        Math.floor(data.daily[1].temp.max),
-        Math.floor(data.daily[1].temp.min),
-        Math.floor(data.daily[1].temp.max * 1.8 + 32),
-        Math.floor(data.daily[1].temp.max * 1.8 + 32)
-      );
-      forecast[1] = new Day(
-        Math.floor(data.daily[2].temp.max),
-        Math.floor(data.daily[2].temp.min),
-        Math.floor(data.daily[2].temp.max * 1.8 + 32),
-        Math.floor(data.daily[2].temp.max * 1.8 + 32)
-      );
-      forecast[2] = new Day(
-        Math.floor(data.daily[3].temp.max),
-        Math.floor(data.daily[3].temp.min),
-        Math.floor(data.daily[3].temp.max * 1.8 + 32),
-        Math.floor(data.daily[3].temp.max * 1.8 + 32)
-      );
-      forecast[3] = new Day(
-        Math.floor(data.daily[4].temp.max),
-        Math.floor(data.daily[4].temp.min),
-        Math.floor(data.daily[4].temp.max * 1.8 + 32),
-        Math.floor(data.daily[4].temp.max * 1.8 + 32)
-      );
-      forecast[4] = new Day(
-        Math.floor(data.daily[5].temp.max),
-        Math.floor(data.daily[5].temp.min),
-        Math.floor(data.daily[5].temp.max * 1.8 + 32),
-        Math.floor(data.daily[5].temp.max * 1.8 + 32)
-      );
-      forecast[5] = new Day(
-        Math.floor(data.daily[6].temp.max),
-        Math.floor(data.daily[6].temp.min),
-        Math.floor(data.daily[6].temp.max * 1.8 + 32),
-        Math.floor(data.daily[6].temp.max * 1.8 + 32)
-      );
+      for (i = 0; i < 6; i++) {
+        forecast[i] = new Day(
+          Math.floor(data.daily[i + 1].temp.max),
+          Math.floor(data.daily[i + 1].temp.min),
+          Math.floor(data.daily[i + 1].temp.max * 1.8 + 32),
+          Math.floor(data.daily[i + 1].temp.max * 1.8 + 32)
+        );
+      }
       displayDays(data);
     });
 }
 
 function displayDays(data) {
-  day1temp.innerHTML = `${forecast[0].tempMax}/${forecast[0].tempMin}°C`;
-  document.getElementById(
-    "img1"
-  ).src = `Icons/${data.daily[1].weather[0].icon}.png`;
-  day2temp.innerHTML = `${forecast[1].tempMax}/${forecast[1].tempMin}°C`;
-  document.getElementById(
-    "img2"
-  ).src = `Icons/${data.daily[2].weather[0].icon}.png`;
-  day3temp.innerHTML = `${forecast[2].tempMax}/${forecast[2].tempMin}°C`;
-  document.getElementById(
-    "img3"
-  ).src = `Icons/${data.daily[3].weather[0].icon}.png`;
-  day4temp.innerHTML = `${forecast[3].tempMax}/${forecast[3].tempMin}°C`;
-  document.getElementById(
-    "img4"
-  ).src = `Icons/${data.daily[4].weather[0].icon}.png`;
-  day5temp.innerHTML = `${forecast[4].tempMax}/${forecast[4].tempMin}°C`;
-  document.getElementById(
-    "img5"
-  ).src = `Icons/${data.daily[5].weather[0].icon}.png`;
-  day6temp.innerHTML = `${forecast[5].tempMax}/${forecast[5].tempMin}°C`;
-  document.getElementById(
-    "img6"
-  ).src = `Icons/${data.daily[6].weather[0].icon}.png`;
+  daysArray.forEach((element, index) => {
+    element.innerHTML = `${forecast[index].tempMax}/${forecast[index].tempMin}°C`;
+  });
+  imgArray.forEach((element, index) => {
+    document.getElementById(`img${index + 1}`).src = `Icons/${
+      data.daily[index + 1].weather[0].icon
+    }.png`;
+  });
 }
 const key = "78b314d11fa47828771f184a2734b69c";
