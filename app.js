@@ -81,67 +81,96 @@ if ("geolocation" in navigator) {
 }
 
 function setPosition(position) {
-  let latitude = position.coords.latitude;
-  let longitude = position.coords.longitude;
+  latitude = position.coords.latitude;
+  longitude = position.coords.longitude;
   getWeather(latitude, longitude);
   getDays(latitude, longitude);
 }
 
-function showError(error) {
-  notificationElement.style.display = "block";
-}
-
-function searchCity() {
-  notificationElement.style.display = "none";
-  let searchElement = document.querySelector(".text-input").value;
-  let cityAPI = `https://api.openweathermap.org/data/2.5/weather?q=${searchElement}&units=metric&appid=${key}`;
-  fetch(cityAPI)
+function getWeather(latitude, longitude) {
+  let cityApi = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${key}`;
+  let api = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&units=metric&appid=${key}`;
+  fetch(cityApi)
     .then((response) => {
       let data = response.json();
       return data;
     })
     .then((data) => {
-      let lat = data.coord.lat;
-      let long = data.coord.lon;
-      getDays(lat, long);
-      weather.temperature = Math.floor(data.main.temp);
-      weather.temperatureF = Math.floor(data.main.temp * 1.8 + 32);
-      weather.description = data.weather[0].description;
-      weather.city = data.name;
-      weather.country = data.sys.country;
-      weather.iconID = data.weather[0].icon;
-      document.querySelector(
-        ".current-date"
-      ).innerHTML = `${currentMonth} ${currentDay}, ${dayOfWeek}`;
+      let city = data.name;
+      let country = data.sys.country;
+      weather.city = city;
+      weather.country = country;
     })
-    .then(function () {
-      displayWeather();
-    });
-  clearSearch();
+    .then(
+      fetch(api)
+        .then((response) => {
+          let data = response.json();
+          return data;
+        })
+        .then((data) => {
+          console.log(data);
+
+          weather.temperature = Math.floor(data.daily[0].temp.day);
+          weather.temperatureF = Math.floor(data.daily[0].temp.day * 1.8 + 32);
+          weather.description = data.daily[0].weather[0].description;
+          weather.iconID = data.daily[0].weather[0].icon;
+        })
+        .then(function () {
+          displayWeather();
+        })
+    );
 }
 
-function clearSearch() {
-  document.querySelector(".text-input").value = "";
-}
-
-function getWeather(latitude, longitude) {
-  let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${key}`;
+function getDays(latitude, longitude) {
+  let api = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&units=metric&appid=${key}`;
   fetch(api)
     .then((response) => {
       let data = response.json();
       return data;
     })
     .then((data) => {
-      weather.temperature = Math.floor(data.main.temp);
-      weather.temperatureF = Math.floor(data.main.temp * 1.8 + 32);
-      weather.description = data.weather[0].description;
-      weather.city = data.name;
-      weather.country = data.sys.country;
-      weather.iconID = data.weather[0].icon;
+      for (i = 0; i < 6; i++) {
+        forecast[i] = new Day(
+          Math.floor(data.daily[i + 1].temp.max),
+          Math.floor(data.daily[i + 1].temp.min),
+          Math.floor(data.daily[i + 1].temp.max * 1.8 + 32),
+          Math.floor(data.daily[i + 1].temp.min * 1.8 + 32)
+        );
+      }
+      displayDays(data);
+    });
+}
+
+function showError() {
+  notificationElement.style.display = "block";
+}
+
+function searchCity() {
+  notificationElement.style.display = "none";
+  let searchElement = document.querySelector(".text-input").value;
+  let searchAPI = `https://api.openweathermap.org/data/2.5/weather?q=${searchElement}&units=metric&appid=${key}`;
+  fetch(searchAPI)
+    .then((response) => {
+      let data = response.json();
+      return data;
+    })
+    .then((data) => {
+      latitude = data.coord.lat;
+      longitude = data.coord.lon;
+      getWeather(latitude, longitude);
+      getDays(latitude, longitude);
+      document.querySelector(
+        ".current-date"
+      ).innerHTML = `${currentMonth} ${currentDay}, ${dayOfWeek}`;
     })
     .then(function () {
-      displayWeather();
+      displayWeather(latitude, longitude);
     });
+  clearSearch();
+}
+
+function clearSearch() {
+  document.querySelector(".text-input").value = "";
 }
 
 function displayWeather() {
@@ -180,26 +209,6 @@ function Day(tempMax, tempMin, tempFMax, tempFMin) {
   this.tempMin = tempMin;
   this.tempFMax = tempFMax;
   this.tempFMin = tempFMin;
-}
-
-function getDays(latitude, longitude) {
-  let api = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&units=metric&appid=${key}`;
-  fetch(api)
-    .then((response) => {
-      let data = response.json();
-      return data;
-    })
-    .then((data) => {
-      for (i = 0; i < 6; i++) {
-        forecast[i] = new Day(
-          Math.floor(data.daily[i + 1].temp.max),
-          Math.floor(data.daily[i + 1].temp.min),
-          Math.floor(data.daily[i + 1].temp.max * 1.8 + 32),
-          Math.floor(data.daily[i + 1].temp.min * 1.8 + 32)
-        );
-      }
-      displayDays(data);
-    });
 }
 
 function displayDays(data) {
