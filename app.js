@@ -108,12 +108,10 @@ function getWeather(latitude, longitude) {
           return data;
         })
         .then((data) => {
-          console.log(data);
-
-          weather.temperature = Math.floor(data.daily[0].temp.day);
-          weather.temperatureF = Math.floor(data.daily[0].temp.day * 1.8 + 32);
-          weather.description = data.daily[0].weather[0].description;
-          weather.iconID = data.daily[0].weather[0].icon;
+          weather.temperature = Math.floor(data.current.temp);
+          weather.temperatureF = Math.floor(data.current.temp * 1.8 + 32);
+          weather.description = data.current.weather[0].description;
+          weather.iconID = data.current.weather[0].icon;
         })
         .then(function () {
           displayWeather();
@@ -222,3 +220,5 @@ function displayDays(data) {
   });
 }
 const key = "78b314d11fa47828771f184a2734b69c";
+
+//use the "dt" property of daily objects to figure out if the dates are correct
